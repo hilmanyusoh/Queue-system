@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All queues</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+form input[type="text"], form input[type="number"] {
+    width: calc(50% - 5px);
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#queue {
+    list-style-type: none;
+    padding: 0;
+}
+
+#queue li {
+    padding: 8px;
+    margin-bottom: 5px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+}
+
+.frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* Adjust the height as needed */
+}
+.container {
+    width: 80%; /* Adjust the width as needed */
+    border: 2px solid black; /* Add border style */
+    padding: 20px; /* Add padding to container */
+    text-align: center; /* This will center the content inside the container */
+}
+
+
+    body {
+        background-image: url('https://cdn.wallpapersafari.com/49/73/mcEn0H.jpg'); /* Replace 'https://example.com/image.jpg' with the direct link to your Google image */
+        background-size: cover; /* Adjusts the background image size to cover the entire body */
+        background-position: center; /* Centers the background image */
+        height: 100vh; /* Sets the height of the body to 100% of the viewport height */
+        margin: 0; /* Removes default margin */
+        padding: 0; /* Removes default padding */
+    }
+
+    /* Add additional CSS styles for your content here */
+
+</style>
+</head>
+<body>
+
+    <div class="frame">
+        <div class="container">
+            <h1>Queue</h1>
+            <form id="queueForm">
+                <label for="name">Person's Name:</label><br>
+                <input type="text" id="name" required><br>
+                <label for="order">Person's Order:</label><br>
+                <input type="text" id="order" required><br>
+                <input type="submit" value="Arrive (Add person to queue)">
+            </form>
+            <button onclick="leaveQueue()">Leave (Remove person from queue)</button>
+            <button href="#" onclick="viewQueue()">View Queue</button>
+            <ul id="queue"></ul>
+        </div>
+    </div>
+
+<script>
+var queue = [];
+
+function addToQueue() {
+    var name = document.getElementById("name").value;
+    var order = document.getElementById("order").value;
+    if (name && order) {
+        var person = { name: name, order: order };
+        queue.push(person);
+        updateQueueDisplay();
+        document.getElementById("name").value = "";
+        document.getElementById("order").value = "";
+    } else {
+        alert("Please enter both name and order.");
+    }
+    return false;
+}
+
+function leaveQueue() {
+    if (queue.length > 0) {
+        var leavingPerson = queue.shift();
+        alert(leavingPerson.name + " with order '" + leavingPerson.order + "' has left the queue.");
+        updateQueueDisplay();
+    } else {
+        alert("Queue is empty.");
+    }
+}
+
+function viewQueue() {
+    if (queue.length > 0) {
+        var queueList = "<h2>Current Bakery Queue:</h2><ul>";
+        queue.forEach(function(person,index) {
+            queueList += "<li>"+ (index + 1)+"."+person.name + " - Order: " + person.order +"</li>";
+        });
+        queueList += "</ul>";
+        document.getElementById("queue").innerHTML = queueList;
+    } else {
+        alert("Queue is empty.");
+    }
+}
+
+function updateQueueDisplay() {
+    var queueList = "";
+    queue.forEach(function(person) {
+        queueList += "<li>" + person.name + " - Order: " + person.order + "</li>";
+    });
+    document.getElementById("queue").innerHTML = queueList;
+}
+
+document.getElementById("queueForm").onsubmit = addToQueue;
+</script>
+
+</body>
+</html>
